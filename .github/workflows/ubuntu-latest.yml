@@ -1,0 +1,38 @@
+name: ubuntu-latest
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: 1.9
+
+#   - name: Build
+#     run: go build -v ./src/
+
+#    - name: Test
+#      run: go test -covermode=count -coverprofile=coverage.out -v ./src/
+      
+    - name: Test & publish code coverage
+      env:
+        CC_TEST_REPORTER_ID: d625d7c1c3f9e8ca60f5f5c91486402b0fa4363c77d794da5016847aa604b7ba
+      run: |
+        curl -L --silent codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+        ls -lh
+        chmod +x ./cc-test-reporter
+        ./cc-test-reporter before-build
+        go test -coverprofile=c.out -v ./src/
+        sed -i 's|_/home/|/home/|g' c.out
+        cat c.out
+        ./cc-test-reporter after-build -t gocov --debug        
