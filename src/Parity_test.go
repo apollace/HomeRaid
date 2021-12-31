@@ -32,7 +32,7 @@ var newParityBlocks = []uint64{newBlock, 2, 4}
 // ===================================================================================================================
 // Functions used during the tests
 //
-func simulateFailure(blocks []uint64, failedBlock uint64, parity uint64, t *testing.T) {
+func simulateFailure(blocks []uint64, failedBlock, parity uint64, t *testing.T) {
 	toRecover := blocks[failedBlock]
 	remainingBlocks := []uint64{}
 
@@ -57,7 +57,7 @@ func bruteForceRecovery(blocks []uint64, t *testing.T) {
 	}
 }
 
-func BruteForceSingleBlockUpdate(blockIndex uint64, blocks []uint64, startValue uint64, maxValue uint64, t *testing.T) {
+func BruteForceSingleBlockUpdate(blockIndex uint64, blocks []uint64, startValue, maxValue uint64, t *testing.T) {
 	incrementalParity := ComputeParity(blocks)
 
 	for i := uint64(startValue); i < maxValue; i++ {
