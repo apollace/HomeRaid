@@ -5,7 +5,7 @@
 ![ubuntu-latest](https://github.com/apollace/HomeRaid/actions/workflows/ubuntu-latest.yml/badge.svg)
 [![DeepSource](https://deepsource.io/gh/apollace/HomeRaid.svg/?label=active+issues&show_trend=true&token=OLmPHzhEOW-wemQxLx2w9ka3)](https://deepsource.io/gh/apollace/HomeRaid/?ref=repository-badge)
 
-HomeRaid aim to be the raid solutions for budget home servers. The project goals are: 
+HomeRaid aim to be the raid solution for budget home servers. The project goals are: 
 
   - Providing an easy to expand raid like solution, new disks can be added on the go.
   - Providing single parity, RAID4 and ZFS RAIDZ1 Like
