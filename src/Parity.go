@@ -21,8 +21,8 @@ package parity
 // starting from existing data and you need to fill your parity disk
 // In this case this function has to be called once for each block. A block is considered to be 64 bits
 func ComputeParity(blocksFromDisks []uint64) (parityBlock uint64) {
-	for i := 0; i < len(blocksFromDisks); i++ {
-		parityBlock = parityBlock ^ blocksFromDisks[i]
+	for _, currentBlock := range blocksFromDisks {
+		parityBlock = parityBlock ^ currentBlock
 	}
 
 	return parityBlock
@@ -35,8 +35,8 @@ func UpdateParity(oldBlock, newBlock, oldParityBlock uint64) (newParityBlock uin
 
 // RecoverLostBlock is used to recover lost data in case of a drive failure inside an existing HomeRaid volume
 func RecoverLostBlock(remainingBlocks []uint64, parityBlock uint64) (recoveredBlock uint64) {
-	for i := 0; i < len(remainingBlocks); i++ {
-		recoveredBlock = recoveredBlock ^ remainingBlocks[i]
+	for _, currentRemainingBlock := range remainingBlocks {
+		recoveredBlock = recoveredBlock ^ currentRemainingBlock
 	}
 
 	return recoveredBlock ^ parityBlock
