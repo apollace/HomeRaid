@@ -18,6 +18,9 @@ package parity
 
 import "testing"
 
+// ===================================================================================================================
+// Constants used during the tests
+//
 var oldBlock uint64 = 1
 var initialParityBlocks = []uint64{oldBlock, 2, 4}
 var expectedInitialParity uint64 = 7
@@ -26,6 +29,37 @@ var remainingBlocks = []uint64{2, 4}
 var newBlock uint64 = 55
 var newParityBlocks = []uint64{newBlock, 2, 4}
 
+// ===================================================================================================================
+// Functions used during the tests
+//
+func simulateFailure(blocks []uint64, failedBlock uint64, parity uint64, t *testing.T) {
+	toRecover := blocks[failedBlock]
+	remainingBlocks := []uint64{}
+
+	for i, b := range blocks {
+		if uint64(i) != failedBlock {
+			remainingBlocks = append(remainingBlocks, b)
+		}
+	}
+
+	recovered := RecoverLostBlock(remainingBlocks, parity)
+
+	if recovered != toRecover {
+		t.Error("Recovered block", recovered, "expected block", toRecover)
+	}
+}
+
+func bruteForce(blocks []uint64, t *testing.T) {
+	parity := ComputeParity(blocks)
+
+	for i := range blocks {
+		simulateFailure(blocks, uint64(i), parity, t)
+	}
+}
+
+// ===================================================================================================================
+// Tests
+//
 func TestComputeParity_simple(t *testing.T) {
 	var parityBlock = ComputeParity(initialParityBlocks)
 
@@ -49,5 +83,30 @@ func TestRecoverLostBlock_simple(t *testing.T) {
 
 	if recoveredBlock != oldBlock {
 		t.Error("Recovered block", recoveredBlock, "expected block", oldBlock)
+	}
+}
+
+func TestBruteForceCloseTo0(t *testing.T) {
+	const maxValue uint64 = 100
+
+	for x := uint64(0); x < maxValue; x++ {
+		for y := uint64(0); y < maxValue; y++ {
+			for z := uint64(0); z < maxValue; z++ {
+				bruteForce([]uint64{x, y, z}, t)
+			}
+		}
+	}
+}
+
+func TestBruteForceCloseToMax(t *testing.T) {
+	const startValue uint64 = ^uint64(0) - 100
+	const maxValue uint64 = ^uint64(0)
+
+	for x := uint64(startValue); x < maxValue; x++ {
+		for y := uint64(startValue); y < maxValue; y++ {
+			for z := uint64(startValue); z < maxValue; z++ {
+				bruteForce([]uint64{x, y, z}, t)
+			}
+		}
 	}
 }
