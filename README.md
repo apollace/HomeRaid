@@ -19,6 +19,6 @@ HomeRaid aim to be the raid solution for budget home servers. The project goals 
   - An high performance solution 
   - An enterprise grade solution
 
-If you like what HomeRaid is feel free to use and contribute.
+If you like HomeRaid feel free to use and contribute.
 
 
