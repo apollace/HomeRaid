@@ -15,7 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // This package contains all the primitive utility to manage the parity in our HomeRaid
-package parity
+package raid
 
 // ComputeParity is used when you create your parity block for the first time. E.g. you create a new HomeRaid volume
 // starting from existing data and you need to fill your parity disk
